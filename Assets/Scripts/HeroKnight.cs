@@ -34,8 +34,9 @@ public class HeroKnight : MonoBehaviour {
     public float attackRate = 2f;
 	private float attackTime = 0.0f;
 
-public int maxHealth = 100;
-    int currentHealth;
+    public int maxHealth = 100;
+    [SerializeField]
+    public int currentHealth;
 
 
 	// Use this for initialization
