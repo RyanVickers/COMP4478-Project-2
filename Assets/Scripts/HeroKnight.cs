@@ -34,6 +34,8 @@ public class HeroKnight : MonoBehaviour {
     public float attackRate = 2f;
 	private float attackTime = 0.0f;
 
+public int maxHealth = 100;
+    int currentHealth;
 
 
 	// Use this for initialization
@@ -46,6 +48,7 @@ public class HeroKnight : MonoBehaviour {
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -204,6 +207,28 @@ else if (inputX < 0)
             // Turn arrow in correct direction
             dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
         }
+    }
+
+        public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        m_animator.SetTrigger("Hurt");
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("Player Died");
+        m_animator.SetTrigger("Death");
+        this.enabled=false;
+         // Stop all bandit enemies from attacking
+    BanditEnemy[] enemies = FindObjectsOfType<BanditEnemy>();
+    foreach (BanditEnemy enemy in enemies) {
+        enemy.SetPlayerAlive(false);
+    }
     }
 
 	private void OnDrawGizmosSelected()
