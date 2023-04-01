@@ -12,6 +12,7 @@ public class BanditEnemy : MonoBehaviour
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private int attackDamage = 10;
     [SerializeField] private float attackCooldown = 1f;
+    [SerializeField] private float detectionRange = 5f;
 
     private Transform player;
     private float timeSinceLastAttack = 0f;
@@ -28,51 +29,62 @@ public class BanditEnemy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (!isPlayerAlive) {
-            // Stop attacking if player is dead
-            return;
-        }
-        //finds distance to player and if not in range moves to player
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= attackRange)
-        {
-            if (timeSinceLastAttack >= attackCooldown)
-            {
-                Attack();
-                timeSinceLastAttack = 0f;
-            }
-            else {
-                isWalkingTowardsPlayer = false;
-            }
-        }
-        else
-        {
-            if (!isWalkingTowardsPlayer) {
-                animator.SetInteger("AnimState", 2);
-                isWalkingTowardsPlayer = true;
-            }
-            float xDirection = player.position.x - transform.position.x;
-            if (xDirection > 0f) {
-                spriteRenderer.flipX = true;
-            } else if (xDirection < 0f) {
-                spriteRenderer.flipX = false;
-            }
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, transform.position.y), moveSpeed * Time.deltaTime);
-        }
-
-        timeSinceLastAttack += Time.deltaTime;
+   void Update()
+{
+    if (!isPlayerAlive) {
+        // Stop attacking if player is dead
+        return;
     }
+    //finds distance to player and if not in range moves to player
+    float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+    if (distanceToPlayer <= attackRange)
+    {
+        if (timeSinceLastAttack >= attackCooldown)
+        {
+            Attack();
+            timeSinceLastAttack = 0f;
+        }
+        else {
+            isWalkingTowardsPlayer = false;
+            
+        }
+    }
+    else if (distanceToPlayer <= detectionRange) // Check if the player is within the detection range
+    {
+        if (!isWalkingTowardsPlayer) {
+            animator.SetInteger("AnimState", 2);
+            isWalkingTowardsPlayer = true;
+        }
+        float xDirection = player.position.x - transform.position.x;
+        if (xDirection > 0f) {
+            spriteRenderer.flipX = true;
+        } else if (xDirection < 0f) {
+            spriteRenderer.flipX = false;
+        }
+        transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.position.x, transform.position.y), moveSpeed * Time.deltaTime);
+    }
+    else
+    {
+        animator.SetInteger("AnimState", 0);
+        isWalkingTowardsPlayer = false;
+    }
+
+    timeSinceLastAttack += Time.deltaTime;
+}
 
     void Attack()
     {
         animator.SetTrigger("Attack");
-        player.GetComponent<HeroKnight>().TakeDamage(attackDamage);
+       Invoke("DamagePlayer", 0.5f); // Delay the damage to player by 2 seconds
         isWalkingTowardsPlayer = false;
         timeSinceLastAttack = 0f;
     }
+
+    void DamagePlayer()
+{
+    player.GetComponent<HeroKnight>().TakeDamage(attackDamage);
+}
 
     public void TakeDamage(int damage)
     {
