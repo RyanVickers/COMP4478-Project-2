@@ -9,6 +9,13 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] bool       m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
 
+
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip runningAudio;
+    [SerializeField] AudioSource effectSource;
+    [SerializeField] AudioClip jumpClip;
+    [SerializeField] AudioClip swordClip;
+
     private Animator            m_animator;
     private Rigidbody2D         m_body2d;
     private Sensor_HeroKnight   m_groundSensor;
@@ -50,6 +57,14 @@ public class HeroKnight : MonoBehaviour {
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
         currentHealth = maxHealth;
+
+        audioSource.loop = true;
+        audioSource.volume = 0.025f;
+        audioSource.clip = runningAudio;
+        audioSource.Play();
+
+        
+        
     }
 
     // Update is called once per frame
@@ -81,21 +96,36 @@ public class HeroKnight : MonoBehaviour {
         }
 
          // -- Handle input and movement --
-float inputX = Input.GetAxis("Horizontal");
+        float inputX = Input.GetAxis("Horizontal");
 
-// Swap direction of sprite depending on walk direction
-if (inputX > 0)
-{
-    transform.localScale = new Vector3(1, 1, 1);
-}
-else if (inputX < 0)
-{
-    transform.localScale = new Vector3(-1, 1, 1);
-}
+        // Swap direction of sprite depending on walk direction
+        if (inputX > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (inputX < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
 
         // Move
         if (!m_rolling )
+        {
             m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
+            
+        } else
+        {
+            
+        }
+
+        if (inputX != 0 && m_grounded && !m_rolling)
+        {
+            audioSource.UnPause();
+        } else
+        {
+            audioSource.Pause();
+        }
+            
 
         //Set AirSpeed in animator
         m_animator.SetFloat("AirSpeedY", m_body2d.velocity.y);
@@ -121,6 +151,10 @@ else if (inputX < 0)
         {
             if (Input.GetMouseButtonDown(0)  && !m_rolling)
             {
+                effectSource.clip = swordClip;
+                effectSource.volume = 0.07f;
+                effectSource.Play();
+
                 m_currentAttack++;
 
                 // Loop back to one after third attack
@@ -165,6 +199,10 @@ else if (inputX < 0)
         //Jump
         else if (Input.GetKeyDown("space") && m_grounded && !m_rolling)
         {
+            effectSource.clip = jumpClip;
+            effectSource.volume = 0.22f;
+            effectSource.Play();
+
             m_animator.SetTrigger("Jump");
             m_grounded = false;
             m_animator.SetBool("Grounded", m_grounded);

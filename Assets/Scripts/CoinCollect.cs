@@ -5,14 +5,22 @@ using UnityEngine.UI;
 using TMPro;
 
 public class CoinCollect : MonoBehaviour {
-  private int score = 0;
-  public TextMeshProUGUI scoreText;
+    private int score = 0;
+    public TextMeshProUGUI scoreText;
 
-  private void OnTriggerEnter2D(Collider2D other) {
+    [SerializeField] AudioSource effectSource;
+    [SerializeField] AudioClip coinClip;
+
+    private void OnTriggerEnter2D(Collider2D other) {
     if (other.gameObject.CompareTag("Coin") && other.gameObject.activeSelf) {
-      score++;
-      scoreText.SetText("Score: " + score);
-      other.gameObject.SetActive(false);
+          effectSource.clip = coinClip;
+          effectSource.volume = 0.07f;
+          effectSource.Play();
+
+
+          score++;
+          scoreText.SetText("Score: " + score);
+          other.gameObject.SetActive(false);
     }
   }
 }
