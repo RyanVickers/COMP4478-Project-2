@@ -42,8 +42,9 @@ public class HeroKnight : MonoBehaviour {
 	private float attackTime = 0.0f;
 
     public int maxHealth = 100;
-    [SerializeField]
-    public int currentHealth;
+    [SerializeField] public int currentHealth;
+    [SerializeField] PhysicsMaterial2D Walls_noFriction;
+    public bool isBlocking = false;
 
 
 	// Use this for initialization
@@ -109,7 +110,7 @@ public class HeroKnight : MonoBehaviour {
         }
 
         // Move
-        if (!m_rolling )
+        if (!m_rolling && !isBlocking )
         {
             m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
             
@@ -181,14 +182,19 @@ public class HeroKnight : MonoBehaviour {
          if (Input.GetMouseButtonDown(1) && !m_rolling)
         {
             m_animator.SetTrigger("Block");
+            isBlocking=true;
+            GetComponent<Collider2D>().sharedMaterial = null;
             m_animator.SetBool("IdleBlock", true);
         }
 
-        else if (Input.GetMouseButtonUp(1))
+        else if (Input.GetMouseButtonUp(1)){
+        isBlocking=false;
+        GetComponent<Collider2D>().sharedMaterial = Walls_noFriction;
             m_animator.SetBool("IdleBlock", false);
+        }
 
         // Roll
-        else if (Input.GetKeyDown("left shift") && !m_rolling && !m_isWallSliding)
+         if (Input.GetKeyDown("left shift") && !m_rolling && !m_isWallSliding)
         {
             m_rolling = true;
             m_animator.SetTrigger("Roll");
@@ -250,12 +256,17 @@ public class HeroKnight : MonoBehaviour {
 
         public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        m_animator.SetTrigger("Hurt");
-        if(currentHealth <= 0)
-        {
-            Die();
-        }
+           if (isBlocking) {
+        // Player is blocking, so no damage is taken
+        return;
+    }
+
+    currentHealth -= damage;
+    m_animator.SetTrigger("Hurt");
+    if(currentHealth <= 0)
+    {
+        Die();
+    }
     }
 
     void Die()
