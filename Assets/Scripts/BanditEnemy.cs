@@ -83,7 +83,9 @@ public class BanditEnemy : MonoBehaviour
 
     void DamagePlayer()
 {
+      if (isPlayerAlive) {
     player.GetComponent<HeroKnight>().TakeDamage(attackDamage);
+      }else return;
 }
 
     public void TakeDamage(int damage)

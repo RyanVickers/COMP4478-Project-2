@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class HeroKnight : MonoBehaviour {
 
@@ -45,6 +47,7 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] public int currentHealth;
     [SerializeField] PhysicsMaterial2D Walls_noFriction;
     public bool isBlocking = false;
+    public TextMeshProUGUI DeathText;
 
 
 	// Use this for initialization
@@ -52,6 +55,7 @@ public class HeroKnight : MonoBehaviour {
     {
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
+        DeathText = FindObjectOfType<TextMeshProUGUI>();
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR1 = transform.Find("WallSensor_R1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
@@ -279,6 +283,8 @@ public class HeroKnight : MonoBehaviour {
     foreach (BanditEnemy enemy in enemies) {
         enemy.SetPlayerAlive(false);
     }
+     DeathText.enabled = true;
+        Invoke("ResetLevel", 2.0f);
     }
 
 	private void OnDrawGizmosSelected()
@@ -287,4 +293,9 @@ public class HeroKnight : MonoBehaviour {
 			return;
 		Gizmos.DrawSphere(attackPoint.position, attackRange);
 	}
+
+      void ResetLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
