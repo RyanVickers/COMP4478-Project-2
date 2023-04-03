@@ -7,6 +7,8 @@ TagManager:
   - Coin
   - Enemy
   - Heart
+  - Damage
+  - Jump
   layers:
   - Default
   - TransparentFX
