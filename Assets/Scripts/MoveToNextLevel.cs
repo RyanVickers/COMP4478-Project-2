@@ -23,7 +23,7 @@ public class MoveToNextLevel : MonoBehaviour
     }
 
     public void TargetScoreAchieved() {
-        if(scoreText.text == "Score: " + targetScore) { //if the score is equal to target score(amount of coins)
+        if(int.Parse(scoreText.text) == targetScore) { //if the score is equal to target score(amount of coins)
             SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex + 1); //go to next scene
         }
     }

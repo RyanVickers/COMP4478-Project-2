@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class HeroKnight : MonoBehaviour {
 
@@ -44,10 +45,12 @@ public class HeroKnight : MonoBehaviour {
 	private float attackTime = 0.0f;
 
     public int maxHealth = 100;
+    public Image healthBar;
     [SerializeField] public int currentHealth;
     [SerializeField] PhysicsMaterial2D Walls_noFriction;
     public bool isBlocking = false;
     public TextMeshProUGUI DeathText;
+    
 
 
 	// Use this for initialization
@@ -266,6 +269,7 @@ public class HeroKnight : MonoBehaviour {
     }
 
     currentHealth -= damage;
+    healthBar.fillAmount = currentHealth/100f;
     m_animator.SetTrigger("Hurt");
     if(currentHealth <= 0)
     {

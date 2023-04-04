@@ -19,7 +19,7 @@ public class CoinCollect : MonoBehaviour {
 
 
           score++;
-          scoreText.SetText("Score: " + score);
+          scoreText.SetText(score.ToString());
           other.gameObject.SetActive(false);
     }
   }

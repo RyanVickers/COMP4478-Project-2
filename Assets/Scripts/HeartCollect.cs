@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class HeartCollect : MonoBehaviour
@@ -9,6 +10,7 @@ public class HeartCollect : MonoBehaviour
 	//sounds
 	[SerializeField] AudioSource effectSource;
 	[SerializeField] AudioClip heartClip;
+	public Image healthBar;
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
@@ -28,6 +30,7 @@ public class HeartCollect : MonoBehaviour
 				//set health to 100
 				heroKnight.currentHealth = 100;
 			}
+			healthBar.fillAmount = heroKnight.currentHealth/100f;
 			//hide sprite
 			other.gameObject.SetActive(false);
 		}
