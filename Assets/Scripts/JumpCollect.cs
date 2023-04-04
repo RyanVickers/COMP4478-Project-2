@@ -12,7 +12,7 @@ public class JumpCollect : MonoBehaviour
 		if (other.gameObject.CompareTag("Jump") && other.gameObject.activeSelf)
 		{
 			//add a permenate jump boost for the level
-			heroKnight.m_jumpForce = heroKnight.m_jumpForce + 3;
+			heroKnight.m_jumpForce = heroKnight.m_jumpForce + 2;
 			//hide the sprite
 			other.gameObject.SetActive(false);
 		}
