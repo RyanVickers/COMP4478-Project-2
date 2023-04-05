@@ -870,8 +870,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afdc401d32c8a0743ba97299c2a9be73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FollowSpeed: 4
-  yOffset: 4
+  FollowSpeed: 10
+  yOffset: 3
   target: {fileID: 584904109}
 --- !u!1 &533772316
 GameObject:
