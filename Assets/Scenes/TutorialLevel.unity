@@ -1160,6 +1160,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 7a1da8275935858428d3af22a10ab810, type: 3}
     - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+      propertyPath: Walls_noFriction
+      value: 
+      objectReference: {fileID: 6200000, guid: 9c497a4ce1f356b448c0dd3eca091d35, type: 2}
+    - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
       propertyPath: enemyLayers.m_Bits
       value: 64
       objectReference: {fileID: 0}
@@ -8919,35 +8923,6 @@ MonoBehaviour:
   coinsInLevel: []
   targetScore: 0
   scoreText: {fileID: 239246262}
---- !u!1 &1373312334 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1689866831511430, guid: 2e2183501755a214591e802f3aff33d2, type: 3}
-  m_PrefabInstance: {fileID: 297466282}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1373312338 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 95346456782871180, guid: 2e2183501755a214591e802f3aff33d2, type: 3}
-  m_PrefabInstance: {fileID: 297466282}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1373312341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1373312334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f91e701d88207045b40d2ec86db4ce4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1373312338}
-  maxHealth: 100
-  moveSpeed: 1
-  attackRange: 1
-  attackDamage: 10
-  attackCooldown: 1.5
-  detectionRange: 5
 --- !u!1 &1404482002
 GameObject:
   m_ObjectHideFlags: 0
