@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BanditEnemy : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class BanditEnemy : MonoBehaviour
     private bool isPlayerAlive = true;
     private bool isWalkingTowardsPlayer = false;
     private SpriteRenderer spriteRenderer;
+
+    public Canvas healthBarCanvas;
+    public Image healthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -83,7 +87,7 @@ public class BanditEnemy : MonoBehaviour
 
     void DamagePlayer()
 {
-      if (isPlayerAlive) {
+      if (isPlayerAlive && currentHealth > 0) {
     player.GetComponent<HeroKnight>().TakeDamage(attackDamage);
       }else return;
 }
@@ -92,6 +96,7 @@ public class BanditEnemy : MonoBehaviour
     {
         currentHealth -= damage;
         animator.SetTrigger("Hurt");
+        healthBar.fillAmount = currentHealth/100f;
         if(currentHealth <= 0)
         {
             Die();
@@ -107,7 +112,7 @@ public class BanditEnemy : MonoBehaviour
         //switch to kinematic to prevent body from falling through ground
         Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
         rigidbody.isKinematic = true;
-
+        healthBarCanvas.enabled = false;
         this.enabled = false;
     }
 
